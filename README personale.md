@@ -4,10 +4,9 @@ Faccio un piccolo ripasso di come gestire e creare un DB con PHPMYADMIn e la sua
                                                        PRIMISSIMA FASE
 
 creo una cartella di lavoro dove voglio (possibilimente all'interno di htdocs di MAMP per usare laravel)
- - dopo aver creato la cartella di lavoro avvio il terminale ed eseguo il comando di installzione di composer per laravel , cioè
-
- composer create-project --prefer-dist laravel/laravel .
- questo comando creerà il prgetto Laravel all'interno della cartella.
+ - dopo aver creato la cartella di lavoro avvio il terminale ed eseguo il comando di installzione di composer per laravel, cioè
+   composer create-project --prefer-dist laravel/laravel . 
+   questo comando creerà il prgetto Laravel all'interno della cartella.
 
  - non avendo una cartella .git (perchè creato nel mio computer) posso inizializzare un nuovo repository GIT:
   git init (comando da utilizzare all'interno direnttamente da VS o da Cmd)
@@ -19,4 +18,8 @@ creo una cartella di lavoro dove voglio (possibilimente all'interno di htdocs di
    git add .
    git commit -m "Aggiunto il progetto Laravel"
  
-                                                 
+---------------------------------------------------------------------------------------------------------------------------------------------
+                                                        PRIMA FASE
+
+Creo il mio Database da PHPMYADMIN e lo collego poi a laravel dentro il file env nella sezione de BD metto nel nome il nome esatto messo in PHPMYADMIN e nella parte username e password uso root perché il DB è all'interno del mio PC.
+                                                      
