@@ -57,7 +57,7 @@ Questo comando creerà il modello Utente.php all'interno della cartella app/Mode
   --------------------------------------------------------------------------------------------------------------------------------------------
       GESTIONE MIGRAZIONI ERRATE O DA AGGIORNARE
 
-Se ci accorgiamo che durante una migrazione già eseguita esistono dei comandi utili per rimediare:
+Se ci accorgiamo che durante una migrazione già eseguita abbiamo sbagliato qualcosa esistono dei comandi utili per rimediare:
 
 -php artisan migrate:rollback
 Questo comando ci permette di annullare l'ultimo GRUPPO di migrazioni eseguite e ci riporta le tabelle(in caso di creazione con quella stessa migrazione vengono cancellate nel DB) allo stato antecedente all'ultima migrazione.
@@ -96,6 +96,11 @@ public function down()
         $table->dropColumn('phone_number'); // Rimuove la colonna phone_number
     });
 }
+
+fatte le dovute modifiche eseguiamo sempre il solito comando php artisan migrate e se tutto è andato a buon fine comparirà la nuova colonna all'interno della tabella nel nostro DB.
+
+
+Se per un motivo o perun altro possiamo sempre eseguire php artisan make:migration rollback per tornare indietro e annullare l'ultima migrazione.
 
 
 
