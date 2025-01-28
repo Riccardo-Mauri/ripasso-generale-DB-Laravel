@@ -54,6 +54,53 @@ Questo comando creerà il file UtentiController.php all'interno della cartella a
 Questo comando creerà il modello Utente.php all'interno della cartella app/Models. Laravel assumerà che la tabella associata al modello Utente sia chiamata utenti (al plurale). si può personalizzare il nome della tabella all'interno del modello se necessario.
 
 
+  --------------------------------------------------------------------------------------------------------------------------------------------
+      GESTIONE MIGRAZIONI ERRATE O DA AGGIORNARE
+
+Se ci accorgiamo che durante una migrazione già eseguita esistono dei comandi utili per rimediare:
+
+-php artisan migrate:rollback
+Questo comando ci permette di annullare l'ultimo GRUPPO di migrazioni eseguite e ci riporta le tabelle(in caso di creazione con quella stessa migrazione vengono cancellate nel DB) allo stato antecedente all'ultima migrazione.
+possiamo pure elimire più migrazioni eseguite ad esempio se vogliamo cancellare le ultime due fatte e tornare a due stadi prima ci basta eseguire questo comando:
+-php artisan migrate:rollback --step=2 (in questo caso il 2 perché voglio tornare indietro di 2 stadi).
+
+-php artisan migrate:reset
+Questo comando esegue il rest completo di tutte le migrazioni fatte nel DB.
+
+Quindi si può eseguire il rollback della migrazione da modificare, apportare le dovute modifiche e rieseguire di nuovo la migrazione con il solito comando php artisan migrate
+
+-php artisan migrate:refresh 
+Questo comando come quell osopra elimina tutte le tabelle migrate nel database e le riesegue creandole nuovamente.
+possiamo pure fare php artisan migrate:refresh -seed
+così possiamo resettare->ricrearle->e definire i seeder fatti con il Seeder apposta.
+
+Se si vuole eseguire delle modifiche alla struttura di una tabella esistente bisogna creare una nuova migrazione che specifichi le modifiche da apportare perché laravel non permette di modificare una migrazione SE già eseguita quindi presente nel DB.
+si crea una nuova migrazione per l'aggiornamento eseguendo il comando:
+
+-php artisan make:migration update_tablename --table=nome_tabella
+quindi collegandoci come prima alla tabella user 
+php artisan make:migration update_user --table=utenti
+Questo farà in modo che laravel andrà a prendere la tabella utenti perché lo specifichiamo qua --table=utenti e cosa vogliamo fare qua update_user,
+quindi se vogliamo aggiungere una colonna magari il numero telefonico degli utenti ma prima non c'era possiamo eseguire un update così:
+php artisan make:migration add_phone_number_to_utenti --table=utenti.
+quindi all'interno della nostra migrazione in database/migrations troveremo la nostra nuova migrazione all'interno del codice up() e down() mettiamo la nuova colonnapublic function up()
+{
+    Schema::table('utenti', function (Blueprint $table) {
+        $table->string('phone_number')->nullable(); // Aggiunge la colonna phone_number
+    });
+}
+
+public function down()
+{
+    Schema::table('utenti', function (Blueprint $table) {
+        $table->dropColumn('phone_number'); // Rimuove la colonna phone_number
+    });
+}
+
+
+
+
+
 
 
                                                       
