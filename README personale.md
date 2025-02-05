@@ -100,7 +100,71 @@ public function down()
 fatte le dovute modifiche eseguiamo sempre il solito comando php artisan migrate e se tutto è andato a buon fine comparirà la nuova colonna all'interno della tabella nel nostro DB.
 
 
-Se per un motivo o perun altro possiamo sempre eseguire php artisan make:migration rollback per tornare indietro e annullare l'ultima migrazione.
+Se per un motivo o per un altro possiamo sempre eseguire php artisan make:migration rollback per tornare indietro e annullare l'ultima migrazione.
+
+
+ --------------------------------------------------------------------------------------------------------------------------------------------
+                                CREAZIONE DI DATI FITTIZI PER ESEGUIRE DEI TEST
+
+Per eseguire dei test di verifica senza dover inizializzare dati veri possiamo far riscorso al seeder e ai faker di laravel, questi ci permetteranno di popolare le nostre tabelle all'interno del DB  il comando da eseguire per creare un seeder è:
+ -php artisan make:seeder NomeSeeder ->sostituire il nome con il nome della tabella che vogliamo popolare esempio ->php artisan make:seeder UsersTableSeeder
+creerà il seeder per la tabella 'users'.
+Questo comando crea un file dentro database/seeders/UsersTableSeeder.php, dove si può definire i dati da inserire.
+
+all'interno del seeder ci sarà questa funzione 
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class UsersTableSeeder extends Seeder
+{
+    public function run()
+    {
+        DB::table('users')->insert([
+            'name' => 'Mario Rossi',
+            'email' => 'mario.rossi@example.com',
+            'password' => bcrypt('password'),
+        ]);
+    }
+}
+Quindi questo creerà all'interno del Database e della tabella 'users' le colonne 'name', 'email' e 'password' con i loro rispettivi valori
+per eseguire questo codice si usa questo comando:
+-php artisan db:seed --class=UsersTableSeeder
+OPPURE si può eseguire TUTTI i seeder dentro DatabaseSeeder.php:
+-php artisan db:seed
+
+mentre invece se vogliamo generare dei dati casuali e non definiti da noi possiamo usare i FAKER, torniamo all'interno del nostro seeder
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
+
+class UsersTableSeeder extends Seeder
+{
+    public function run()
+    {
+        $faker = Faker::create();
+
+        for ($i = 0; $i < 10; $i++) {
+            DB::table('users')->insert([
+                'name' => $faker->name,
+                'email' => $faker->unique()->safeEmail,
+                'password' => bcrypt('password'), // Puoi usare sempre la stessa password crittografata
+            ]);
+        }
+    }
+}
+
+use Faker\Factory as Faker; 
+richiamiamo il faker di laravel così possiamo utilizzarlo all'interno del nostro seeder
+Poi sempre dentro la funzione run() eseguiamo questo codice 
+$faker = Faker::create();
+sotto grazie al ciclo for andrà a creare randomicamente 10 utenti diversi tra loro con i relativi valori sempre generati casualmente.
+(il bcrypt('password') renderà la password criptata).
+
+infine per eseguire questa modifica basterà scrivere lo stesso codice di prima:
+-php artisan db:seed --class=UsersTableSeeder
+eseguirà il seeder CON il faker che appunto genererà i nostri dati fittizi oppure se vogliamo eseguirli tutti
+-php artisan db:seed
 
 
 
