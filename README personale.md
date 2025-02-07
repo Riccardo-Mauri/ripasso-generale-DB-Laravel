@@ -169,14 +169,15 @@ eseguirà il seeder CON il faker che appunto genererà i nostri dati fittizi opp
  --------------------------------------------------------------------------------------------------------------------------------------------
                                               SPIEGAZIONE GENERALE DELLE FUNZIONALITA'
 
-Le Operazioni CRUD in Laravel
+Le Operazioni CRUD in Laravel:
+
 Le operazioni CRUD sono le quattro operazioni fondamentali per gestire i dati in un database:
 
-Operazione	                                            Metodo HTTP	                                         Metodo nel Controller
-Create (Creazione)	                                    POST	                                             store()
-Read (Lettura)	                                        GET	                                                 index(), show()
-Update (Aggiornamento)	                                PUT/PATCH	                                         update()
-Delete (Eliminazione)	                                DELETE	                                             destroy()
+-Operazione	                                            -Metodo HTTP	                                     -Metodo nel Controller
+-Create (Creazione)	                                    -POST	                                             -store()
+-Read (Lettura)	                                        -GET	                                             -index(), show()
+-Update (Aggiornamento)	                                -PUT/PATCH	                                         -update()
+-Delete (Eliminazione)	                                -DELETE	                                             -destroy()
 Laravel, quando creiamo un controller resource, ci fornisce automaticamente questi metodi:
 
 Metodi principali in un Controller Resource
@@ -269,7 +270,21 @@ PUT/PATCH	                                             /utenti/{id}	            
 DELETE	                                                 /utenti/{id}	                                     destroy() - Elimina un utente                                             
 
 
+Bisogna poi specificare le ROTTE nella pagina web.php all'interno di routes che collegherà un URL a un controller e a un metodo specifico.
 
+esempio standard
+
+Route::get('/', function (){
+    return view ('welcome');
+});
+se vado nella pagina o url http://localhost/ laravel mi mostrerà la VIEW welcome.blade.php.
+
+Se vuoi gestire una pagina con un controller, definisci una rotta che chiama un metodo:
+
+use App\Http\Controllers\UtentiController;
+
+Route::get('/utenti', [UtentiController::class, 'index']);
+Questa rotta chiama il metodo index() del controller UtentiController quando visiti http://localhost/utenti.
 
 
                                                       
